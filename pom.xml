@@ -42,11 +42,11 @@
 		<serializationVersion>0.2.7</serializationVersion>
 		<jacksonVersion>1.5.0</jacksonVersion>
 		<quartzVersion>2.1.1</quartzVersion>
-		<poiVersion>3.2-FINAL</poiVersion>
+		<poiVersion>3.9</poiVersion>
 		<groovyVersion>1.8.7</groovyVersion>
         <jodatimeVersion>2.3</jodatimeVersion>
         <handlebarsVersion>1.1.2</handlebarsVersion>
-        <openmrsTestutilsVersion>1.0</openmrsTestutilsVersion>
+        <openmrsTestutilsVersion>1.1-SNAPSHOT</openmrsTestutilsVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<MODULE_ID>${project.parent.artifactId}</MODULE_ID>
 		<MODULE_NAME>${project.parent.name}</MODULE_NAME>
@@ -61,7 +61,6 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>${poiVersion}</version>
-			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>log4j</groupId>
@@ -231,6 +230,17 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poiVersion}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<build>

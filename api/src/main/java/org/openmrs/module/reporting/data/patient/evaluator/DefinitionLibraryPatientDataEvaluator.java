@@ -25,6 +25,8 @@ import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Map;
+
 @Handler(supports = DefinitionLibraryPatientDataDefinition.class)
 public class DefinitionLibraryPatientDataEvaluator implements PatientDataEvaluator {
 
@@ -39,8 +41,13 @@ public class DefinitionLibraryPatientDataEvaluator implements PatientDataEvaluat
         DefinitionLibraryPatientDataDefinition def = (DefinitionLibraryPatientDataDefinition) definition;
         PatientDataDefinition referencedDefinition = definitionLibraries.getDefinition(PatientDataDefinition.class, def.getDefinitionKey());
 
-        Mapped<PatientDataDefinition> mapped = new Mapped<PatientDataDefinition>(referencedDefinition, def.getParameterValues());
-
+        // parameters without values explicitly set should be mapped straight through
+        Mapped<PatientDataDefinition> mapped = Mapped.mapStraightThrough(referencedDefinition);
+        if (def.getParameterValues() != null) {
+            for (Map.Entry<String, Object> e : def.getParameterValues().entrySet()) {
+                mapped.addParameterMapping(e.getKey(), e.getValue());
+            }
+        }
         return patientDataService.evaluate(mapped, context);
     }
 
